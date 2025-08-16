@@ -6,29 +6,21 @@ def count_words(book_contents):
     return len(book_contents.split())
 
 
-def character_count(book_contents):
-    """Count characters in text"""
-    ordered_ocurrences = []
-    characters_ocurrences = {}
-    final_ocurrences = {}
-    for character in book_contents.lower():
-        if character.isalpha():
-            if character in characters_ocurrences:
-                characters_ocurrences[character] += 1
+def character_count(book_contents, ordered=True):
+    """Count characters in text.
+    """
+    character_ocurrences = {}
+    for char in book_contents.lower():
+        if char.isalpha():
+            if char in character_ocurrences:
+                character_ocurrences[char] += 1
             else:
-                characters_ocurrences[character] = 1
-    for key, value in characters_ocurrences.items():
-        ordered_ocurrences.append(
-            {"char": key, "num": int(value)}
-            )
-    # print(type(ordered_ocurrences))
-    ordered_ocurrences.sort(reverse=True, key=sort_on)
-    for character_counted in ordered_ocurrences:
-        final_ocurrences[character_counted["char"]] = character_counted["num"]
-
-    return final_ocurrences
-
-
-def sort_on(items):
-    """Sort by num key."""
-    return items["num"]
+                character_ocurrences[char] = 1
+    if ordered:
+        return dict(sorted(
+            character_ocurrences.items(),
+            key=lambda character: character[1],
+            reverse=True
+            ))
+    else:
+        return character_ocurrences
